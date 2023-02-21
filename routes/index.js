@@ -30,7 +30,7 @@ router.post('/login', async (req, res, next) => {
     console.log(req.body)
     
     const { email, password } = req.body
-    let [ rows ] = await pool.query('select * from user where email = ?', [ email])
+    let [ rows ] = await pool.query('select * from usuarios where email = ?', [ email])
 
     console.log(rows)
 
@@ -76,7 +76,7 @@ router.post('/register', async (req, res, next) => {
 
     // check if exist results in table mysql
         try{
-            [ rows ] = await pool.query('select count(*) as "mail" from user where email = ? ', [ email ])
+            [ rows ] = await pool.query('select count(*) as "mail" from usuarios where email = ? ', [ email ])
 
             rows.then( (data) => { console.lod(data) }).catch( ( error )=> { console.lod(error) } )
             console.log(data)
@@ -92,7 +92,7 @@ router.post('/register', async (req, res, next) => {
 
         }else{ // email not exist
             try{
-                [ rows ] = await pool.query('INSERT INTO user SET ?', [ { name, email, passwd } ])
+                [ rows ] = await pool.query('INSERT INTO usuarios SET ?', [ { name, email, passwd } ])
                 res.redirect('/login')
             }catch{
             }
